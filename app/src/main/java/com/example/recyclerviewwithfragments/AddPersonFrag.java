@@ -3,62 +3,71 @@ package com.example.recyclerviewwithfragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddPersonFrag#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddPersonFrag extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    Button btnAdd;
+    EditText etName, etTel;
+    LIstFragment lfrag;
+    FragmentManager fragmentManager;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     public AddPersonFrag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddPersonFrag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddPersonFrag newInstance(String param1, String param2) {
-        AddPersonFrag fragment = new AddPersonFrag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_person, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_person, container, false);
+        btnAdd = v.findViewById(R.id.btnAdd);
+        etName = v.findViewById(R.id.etName);
+        etTel  = v.findViewById(R.id.etTel);
+
+        //Here we Need to Update the list fragment everytime we develop add a new item
+        // for that we need to connect the detail fragment to the list fragment using the fragment manager
+        fragmentManager = getActivity().getSupportFragmentManager();
+        lfrag = (LIstFragment) fragmentManager.findFragmentById(R.id.fragmentContainerView);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etName.getText().toString().isEmpty() || etTel.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please Enter all the fields", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Person p  = new Person(etName.getText().toString(), etTel.getText().toString());
+                    ApplicationClass.people.add(p);
+                    Toast.makeText(getActivity(), "Successfull", Toast.LENGTH_SHORT).show();
+
+                    //To again make the entry fields blank to be able to add another one again
+                    etName.setText(null);
+                    etTel.setText(null);
+
+                    //we Notified the person adapter from the list fragment that applicaion class for people has been updated
+                    lfrag.notifyDataChanged();
+
+
+
+                }
+
+            }
+        });
+        return v;
+
     }
+
 }

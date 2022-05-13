@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PersonAdpater.ItemClicked {
 
@@ -15,6 +18,9 @@ public class MainActivity extends AppCompatActivity implements PersonAdpater.Ite
     EditText etName, etTel;
     Button btnAdd;
     DetailFragment dfrag;
+    AddPersonFrag apFrag;
+    //LIstFragment lfrag;
+
 
 
     @Override
@@ -31,7 +37,13 @@ public class MainActivity extends AppCompatActivity implements PersonAdpater.Ite
 
 
 
+        //apFrag = (AddPersonFrag) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView3);
+        //lfrag = (LIstFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
+
+        //As we need to display Nothing when our app starts or we don't won't to display anything
+        //before clicking any name
+        //onItemClicked(0);
 
     }
 

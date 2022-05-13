@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class LIstFragment extends Fragment {
@@ -18,6 +20,8 @@ public class LIstFragment extends Fragment {
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
     View view;
+
+
 
 
 
@@ -34,6 +38,8 @@ public class LIstFragment extends Fragment {
 
         //Here we are doing the same instead returning the inflator directly we first hold it in the view and returned it as it can be used in further
         view = inflater.inflate(R.layout.fragment_l_ist, container, false);
+
+
         return view ;
     }
 
@@ -42,6 +48,7 @@ public class LIstFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+
 
         recyclerView = view.findViewById(R.id.list);
         recyclerView.setHasFixedSize(true);
@@ -56,5 +63,11 @@ public class LIstFragment extends Fragment {
 
 
 
+    }
+    public void notifyDataChanged()
+    {
+        //it will notify the person adapter that Application.People is being updated and reload it again
+        // we have updated this from the Detail frag where we have taken the input and added to the people list
+        myAdapter.notifyDataSetChanged();
     }
 }
